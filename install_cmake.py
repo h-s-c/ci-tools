@@ -60,7 +60,9 @@ if __name__ == "__main__":
         CMAKE_FILENAME = CMAKE_FILENAME_MACOSX
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
         CMAKE_DEST = os.environ.get("HOME")+"/ci-tools"
-
+        
+    CMAKE_FILENAME = CMAKE_FILENAME_MACOSX
+    CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
     if not os.path.exists(CMAKE_DEST):
         os.makedirs(CMAKE_DEST)
     os.chdir(CMAKE_DEST)
