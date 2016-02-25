@@ -74,4 +74,4 @@ if __name__ == "__main__":
 
     download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX)
     extract(CMAKE_FILENAME+CMAKE_SUFFIX)
-    copy(CMAKE_FILENAME, "cmake")
+    copy(CMAKE_FILENAME, CMAKE_DEST)
