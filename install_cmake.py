@@ -69,7 +69,7 @@ if __name__ == "__main__":
         CMAKE_DEST = os.environ.get("HOME")+"/ci-tools/cmake"
 
     if not os.path.exists(CMAKE_DEST):
-        os.mkdir(CMAKE_DEST)
+        os.makedirs(CMAKE_DEST)
     os.chdir(CMAKE_DEST)
 
     download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX)
