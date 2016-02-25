@@ -25,5 +25,4 @@ if __name__ == "__main__":
         CMAKE_DEST = os.environ.get("TMP")+"\\ci-tools\\cmake\\bin"
         os.environ["PATH"] = CMAKE_DEST+";"+os.environ.get("PATH")
 
-    print os.environ.get("PATH")
     os.system("ctest -S ci-tools/run_ctest.cmake")
