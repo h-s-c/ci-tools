@@ -6,7 +6,7 @@ import os
 import subprocess
 
 def shell_source(script):
-    pipe = subprocess.Popen("bash -c set -a && %s && env" % script, stdout=subprocess.PIPE, shell=True)
+    pipe = subprocess.Popen(['/bin/bash', '-c', '%s' % script], stdout=subprocess.PIPE)
     output = pipe.communicate()[0]
     env = dict((line.split("=", 1) for line in output.splitlines()))
     os.environ.update(env)
