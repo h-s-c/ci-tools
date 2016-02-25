@@ -3,12 +3,10 @@
 
 import platform
 import os
+import subprocess
 
 def shell_source(script):
-    """Sometime you want to emulate the action of "source" in bash,
-    settings some environment variables. Here is a way to do it."""
-    import subprocess, os
-    pipe = subprocess.Popen(". %s; env" % script, stdout=subprocess.PIPE, shell=True)
+    pipe = subprocess.Popen("bash -c set -a && %s && env" % script, stdout=subprocess.PIPE, shell=True)
     output = pipe.communicate()[0]
     env = dict((line.split("=", 1) for line in output.splitlines()))
     os.environ.update(env)
