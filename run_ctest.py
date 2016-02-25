@@ -17,12 +17,10 @@ if __name__ == "__main__":
     if platform.system() == "Linux" or platform.system() == "Darwin":
         CMAKE_DEST = os.environ.get("HOME")+"/ci-tools/cmake/bin"
         ICC_DEST = os.environ.get("HOME")+"/ci-tools/icc"
-        os.environ["PATH"] = CMAKE_DEST+":"+os.environ.get("PATH")
         if os.path.exists(ICC_DEST):
             os.environ["LD_LIBRARY_PATH"] = ICC_DEST+";"+os.environ.get("LD_LIBRARY_PATH")
             shell_source("source "+ICC_DEST+"/bin/compilervars.sh intel64")
     elif platform.system() == "Windows":
         CMAKE_DEST = os.environ.get("TMP")+"\\ci-tools\\cmake\\bin"
-        os.environ["PATH"] = CMAKE_DEST+";"+os.environ.get("PATH")
 
-    os.system("ctest -S ci-tools/run_ctest.cmake")
+    os.system(CMAKE_DEST+os.sep+"ctest -S ci-tools/run_ctest.cmake")
