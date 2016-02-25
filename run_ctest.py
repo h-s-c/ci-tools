@@ -25,5 +25,5 @@ if __name__ == "__main__":
     elif platform.system() == "Darwin":
         os.environ["PATH"] = os.environ.get("HOME")+"/ci-tools/cmake/CMake.app/Contents/bin"+":"+os.environ.get("PATH")
 
-    if os.system("ctest -S ci-tools/run_ctest.cmake") != 0:
+    if os.system("ctest -VV -S ci-tools/run_ctest.cmake") != 0:
         raise Exception("CTest returned an error.")
