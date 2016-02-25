@@ -1,26 +1,3 @@
-###############################################################################
-# libKD
-# zlib/libpng License
-###############################################################################
-# Copyright (c) 2014-2016 Kevin Schmidt
-#
-# This software is provided 'as-is', without any express or implied
-# warranty. In no event will the authors be held liable for any damages
-# arising from the use of this software.
-#
-# Permission is granted to anyone to use this software for any purpose,
-# including commercial applications, and to alter it and redistribute it
-# freely, subject to the following restrictions:
-#
-# 1. The origin of this software must not be misrepresented; you must not
-#    claim that you wrote the original software. If you use this software
-#    in a product, an acknowledgment in the product documentation would be
-#    appreciated but is not required.
-# 2. Altered source versions must be plainly marked as such, and must not be
-#    misrepresented as being the original software.
-# 3. This notice may not be removed or altered from any source distribution.
-###############################################################################
-
 if(UNIX)
     # # Required by CTEST_COVERAGE_EXTRA_FLAGS and CTEST_UPDATE_VERSION_ONLY
     cmake_minimum_required(VERSION 3.1)
@@ -102,7 +79,7 @@ if(DEFINED ENV{APPVEYOR})
     set(CTEST_SOURCE_DIRECTORY "$ENV{APPVEYOR_BUILD_FOLDER}")
 elseif(DEFINED ENV{CIRCLECI})
     set(CTEST_SITE "Circle CI")
-    set(CTEST_SOURCE_DIRECTORY "$ENV{HOME}/libKD")
+    set(CTEST_SOURCE_DIRECTORY "$ENV{PWD}")
 elseif(DEFINED ENV{DRONE})
     set(CTEST_SITE "Drone CI")
     set(CTEST_SOURCE_DIRECTORY "$ENV{DRONE_BUILD_DIR}")
@@ -111,7 +88,7 @@ elseif(DEFINED ENV{GITLAB_CI})
     set(CTEST_SOURCE_DIRECTORY "$ENV{CI_PROJECT_DIR}")
 elseif(DEFINED ENV{MAGNUM})
     set(CTEST_SITE "Magnum CI")
-    set(CTEST_SOURCE_DIRECTORY "$ENV{HOME}/libKD")
+    set(CTEST_SOURCE_DIRECTORY "$ENV{PWD}")
 elseif(DEFINED ENV{SCRUTINIZER})
     set(CTEST_SITE "Scrutinizer CI")
     set(CTEST_SOURCE_DIRECTORY "$ENV{PWD}")
@@ -203,7 +180,7 @@ if(CTEST_COVERAGE_COMMAND)
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=${CC_COVERAGE_FLAGS}")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=${CC_COVERAGE_FLAGS}")
     ctest_build()
     ctest_test()
     if(CC_NAME STREQUAL "msvc")
@@ -217,7 +194,7 @@ if(CTEST_COVERAGE_COMMAND)
             string(REGEX REPLACE ${OCC_TEMP} "" OCC_TEST ${OCC_TEST})
             exec_program(${CTEST_COVERAGE_COMMAND} ${CTEST_BINARY_DIRECTORY}/Debug ARGS --sources ${CTEST_SOURCE_DIRECTORY}\\source --modules *${CI_BUILD_UUID}* --cover_children --export_type=cobertura -- ${OCC_TEST}.exe)
             file(READ ${CTEST_BINARY_DIRECTORY}/Debug/${OCC_TEST}Coverage.xml OCC_TESTXML)
-            string(REGEX REPLACE "package name=[^ ]+\"" "package name=\"libKD\"" OCC_TESTXML ${OCC_TESTXML})
+            string(REGEX REPLACE "package name=[^ ]+\"" "package name=\"merged\"" OCC_TESTXML ${OCC_TESTXML})
             string(REGEX REPLACE "filename=[^ ]+\\source." "filename=\"source/" OCC_TESTXML ${OCC_TESTXML})
             string(REGEX REPLACE "<source>[^ ]+</source>" "<source>source</source>" OCC_TESTXML ${OCC_TESTXML})
             file(WRITE ${CTEST_BINARY_DIRECTORY}/Debug/${OCC_TEST}Coverage.xml ${OCC_TESTXML})
@@ -238,9 +215,9 @@ if(CC_NAME STREQUAL "msvc" OR CC_NAME STREQUAL "clang")
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
     if(CC_NAME STREQUAL "msvc")
-        ctest_configure(OPTIONS "-DKD_BUILD_TESTS=Off -DKD_BUILD_CI_FLAGS=/analyze")
+        ctest_configure(OPTIONS "-DCI_NO_TESTS=On -DCI_CC_FLAGS=/analyze")
     elseif(CC_NAME STREQUAL "clang")
-        ctest_configure(OPTIONS "-DKD_BUILD_TESTS=Off -DKD_BUILD_CI_FLAGS=--analyze")
+        ctest_configure(OPTIONS "-DCI_NO_TESTS=On -DCI_CC_FLAGS=--analyze")
     endif()
     ctest_build()
     ctest_submit(PARTS Start Update Configure Build Upload Submit)
@@ -256,7 +233,7 @@ if(CTEST_MEMORYCHECK_COMMAND)
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=-fno-omit-frame-pointer")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=-fno-omit-frame-pointer")
     ctest_build()
     ctest_test()
     ctest_memcheck()
@@ -267,7 +244,7 @@ if(CTEST_MEMORYCHECK_COMMAND)
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=-fno-omit-frame-pointer")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=-fno-omit-frame-pointer")
     ctest_build()
     ctest_test()
     ctest_memcheck()
@@ -294,7 +271,7 @@ if(CTEST_MEMORYCHECK_TYPE STREQUAL "AddressSanitizer")
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=-fsanitize=address -fno-omit-frame-pointer")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=-fsanitize=address -fno-omit-frame-pointer")
     ctest_build()
     ctest_test()
     ctest_memcheck()
@@ -315,7 +292,7 @@ if(CTEST_MEMORYCHECK_TYPE STREQUAL "MemorySanitizer")
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=-fsanitize=memory -fsanitize-memory-track-origins -fno-omit-frame-pointer")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=-fsanitize=memory -fsanitize-memory-track-origins -fno-omit-frame-pointer")
     ctest_build()
     ctest_test()
     ctest_memcheck()
@@ -342,7 +319,7 @@ if(CTEST_MEMORYCHECK_TYPE STREQUAL "ThreadSanitizer")
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=${CC_TSAN_FLAGS} -fsanitize=thread -fno-omit-frame-pointer")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=${CC_TSAN_FLAGS} -fsanitize=thread -fno-omit-frame-pointer")
     ctest_build()
     ctest_test()
     ctest_memcheck()
@@ -370,7 +347,7 @@ if(CTEST_MEMORYCHECK_TYPE STREQUAL "UndefinedBehaviorSanitizer")
     ctest_start(Continuous)
     ctest_update()
     ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-    ctest_configure(OPTIONS "-DKD_BUILD_CI_FLAGS=${CC_UBSAN_FLAGS} -fno-omit-frame-pointer")
+    ctest_configure(OPTIONS "-DCI_CC_FLAGS=${CC_UBSAN_FLAGS} -fno-omit-frame-pointer")
     ctest_build()
     ctest_test()
     ctest_memcheck()

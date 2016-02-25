@@ -13,7 +13,7 @@ import ssl
 CMAKE_BASE_URL = "https://cmake.org/files/v3.5/"
 CMAKE_FILENAME_LINUX_32 = "cmake-3.5.0-rc3-Linux-i386"
 CMAKE_FILENAME_LINUX_64 = "cmake-3.5.0-rc3-Linux-x86_64"
-CMAKE_FILENAME_WINDOWS = "cmake-3.5.0-rc2-win32-x86"
+CMAKE_FILENAME_WINDOWS = "cmake-3.5.0-rc3-win32-x86"
 CMAKE_FILENAME_MACOSX = "cmake-3.5.0-rc3-Darwin-x86_64"
 CMAKE_SUFFIX_UNIX = ".tar.gz"
 CMAKE_SUFFIX_WINDOWS = ".zip"
