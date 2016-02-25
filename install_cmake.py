@@ -58,15 +58,15 @@ if __name__ == "__main__":
         elif platform.architecture()[0] == "64bit":
             CMAKE_FILENAME = CMAKE_FILENAME_LINUX_64   
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
-        CMAKE_DEST = os.getenv("TMPDIR")+"/cmake"
+        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools/cmake"
     elif platform.system() == "Windows":
         CMAKE_FILENAME = CMAKE_FILENAME_WINDOWS
         CMAKE_SUFFIX = CMAKE_SUFFIX_WINDOWS
-        CMAKE_DEST = os.getenv("TMP")+"/cmake"
+        CMAKE_DEST = os.environ.get("TMP")+"/ci-tools/cmake"
     elif platform.system() == "Darwin":
         CMAKE_FILENAME = CMAKE_FILENAME_MACOSX
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
-        CMAKE_DEST = os.getenv("TMPDIR")+"/cmake"
+        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools/cmake"
 
     if not os.path.exists(CMAKE_DEST):
         os.mkdir(CMAKE_DEST)
