@@ -23,4 +23,5 @@ if __name__ == "__main__":
     elif platform.system() == "Windows":
         CMAKE_DEST = os.environ.get("TMP")+"\\ci-tools\\cmake\\bin"
 
-    os.system(CMAKE_DEST+os.sep+"ctest -S ci-tools/run_ctest.cmake")
+    if os.system(CMAKE_DEST+os.sep+"ctest -S ci-tools/run_ctest.cmake") != 0:
+        raise Exception("CTest returned an error.")
