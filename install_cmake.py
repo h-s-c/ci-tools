@@ -44,13 +44,6 @@ def extract(filename):
     try: file.extractall()
     finally: file.close()
 
-
-def copy(source, dest):
-    print "Copying to "+dest
-    if os.path.exists(dest):
-        shutil.rmtree(dest)
-    shutil.copytree(source, dest)
-
 if __name__ == "__main__":
     if platform.system() == "Linux":
         if platform.architecture()[0] == "32bit":
@@ -58,15 +51,15 @@ if __name__ == "__main__":
         elif platform.architecture()[0] == "64bit":
             CMAKE_FILENAME = CMAKE_FILENAME_LINUX_64   
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
-        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools/cmake"
+        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools"
     elif platform.system() == "Windows":
         CMAKE_FILENAME = CMAKE_FILENAME_WINDOWS
         CMAKE_SUFFIX = CMAKE_SUFFIX_WINDOWS
-        CMAKE_DEST = os.environ.get("TMP")+"/ci-tools/cmake"
+        CMAKE_DEST = os.environ.get("TMP")+"/ci-tools"
     elif platform.system() == "Darwin":
         CMAKE_FILENAME = CMAKE_FILENAME_MACOSX
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
-        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools/cmake"
+        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools"
 
     if not os.path.exists(CMAKE_DEST):
         os.makedirs(CMAKE_DEST)
@@ -74,4 +67,6 @@ if __name__ == "__main__":
 
     download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX)
     extract(CMAKE_FILENAME+CMAKE_SUFFIX)
-    copy(CMAKE_FILENAME, CMAKE_DEST)
+    if os.path.exists(CMAKE_DEST+"/cmake"):
+        shutil.rmtree(CMAKE_DEST+"/cmake")
+    os.rename(CMAKE_FILENAME, "cmake")
