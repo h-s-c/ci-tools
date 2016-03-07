@@ -18,5 +18,5 @@ if __name__ == "__main__":
     elif platform.system() == "Darwin":
         CTEST = os.path.join(CMAKE, "CMake.app", "Contents", "bin", "ctest")
 
-    if subprocess.call([CTEST, "-VV -S ci-tools/run_ctest.cmake"]) != 0:
+    if subprocess.call(CTEST+" -VV -S ci-tools/run_ctest.cmake", shell=True) != 0:
         raise Exception("ctest returned an error.")
