@@ -18,9 +18,8 @@ CMAKE_FILENAME_MACOSX = "cmake-3.5.0-rc3-Darwin-x86_64"
 CMAKE_SUFFIX_UNIX = ".tar.gz"
 CMAKE_SUFFIX_WINDOWS = ".zip"
 
-def download(url):
+def download(url, filename):
     print "Downloading "+url
-    filename = url.split("/")[-1]
     try:
         _create_unverified_https_context = ssl._create_unverified_context
     except AttributeError:
@@ -30,7 +29,7 @@ def download(url):
     urllib.urlretrieve(url, filename)
 
 def extract(filename):
-    print "Extracting "+filename
+    print "Extracting "+os.path.basename(filename)
     if filename.endswith('.zip'):
         opener, mode = zipfile.ZipFile, 'r'
     elif filename.endswith('.tar.gz') or filename.endswith('.tgz'):
@@ -51,22 +50,19 @@ if __name__ == "__main__":
         elif platform.architecture()[0] == "64bit":
             CMAKE_FILENAME = CMAKE_FILENAME_LINUX_64   
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
-        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools"
     elif platform.system() == "Windows":
         CMAKE_FILENAME = CMAKE_FILENAME_WINDOWS
         CMAKE_SUFFIX = CMAKE_SUFFIX_WINDOWS
-        CMAKE_DEST = os.environ.get("TMP")+"/ci-tools"
     elif platform.system() == "Darwin":
         CMAKE_FILENAME = CMAKE_FILENAME_MACOSX
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
-        CMAKE_DEST = os.environ.get("HOME")+"/ci-tools"
 
-    if not os.path.exists(CMAKE_DEST):
-        os.makedirs(CMAKE_DEST)
-    os.chdir(CMAKE_DEST)
+    os.chdir(os.path.join(os.getcwd(), "ci-tools"))
 
-    download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX)
-    extract(CMAKE_FILENAME+CMAKE_SUFFIX)
-    if os.path.exists(CMAKE_DEST+"/cmake"):
-        shutil.rmtree(CMAKE_DEST+"/cmake")
-    os.rename(CMAKE_FILENAME, "cmake")
+    download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX, os.path.join(os.getcwd(), CMAKE_FILENAME+CMAKE_SUFFIX))
+    extract(os.path.join(os.getcwd(), CMAKE_FILENAME+CMAKE_SUFFIX))
+
+    if os.path.exists(os.path.join(os.getcwd(), "cmake")):
+        shutil.rmtree(os.path.join(os.getcwd(), "cmake"))
+
+    os.rename(os.path.join(os.getcwd(), CMAKE_FILENAME), os.path.join(os.getcwd(), "cmake"))

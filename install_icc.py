@@ -5,9 +5,9 @@ import platform
 import os
 
 if __name__ == "__main__":
+    CITOOLS_PATH = os.path.join(os.getcwd(), "ci-tools")
+    ICC_PATH = os.path.join(CITOOLS_PATH, "icc")
     if platform.system() == "Linux" or platform.system() == "Darwin":
-        ICC_DEST = os.environ.get("HOME")+"/ci-tools/icc"
-        os.system("sudo /bin/sh `pwd`/ci-tools/install_icc.sh --dest "+ICC_DEST)
+        os.system("sudo /bin/sh "+os.path.join(CITOOLS_PATH, "install_icc.sh")+" --dest "+ICC_PATH)
     elif platform.system() == "Windows":
-        ICC_DEST = os.getenv("TMP")+"/ci-tools/icc"
         #TODO
