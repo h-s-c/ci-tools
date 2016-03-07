@@ -3,6 +3,7 @@
 
 import platform
 import os
+import subprocess
 
 if __name__ == "__main__":
     CITOOLS_PATH = os.path.join(os.getcwd(), "ci-tools")
@@ -17,5 +18,5 @@ if __name__ == "__main__":
     elif platform.system() == "Darwin":
         CTEST = os.path.join(CMAKE, "CMake.app", "Contents", "bin", "ctest")
 
-    if os.system(CTEST+" -VV -S ci-tools/run_ctest.cmake") != 0:
-        raise Exception("CTest returned an error.")
+    if subprocess.call([CTEST, "-VV -S ci-tools/run_ctest.cmake"]) != 0:
+        raise Exception("ctest returned an error.")
