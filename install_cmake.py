@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
 import sys
 import platform
 import urllib
@@ -19,7 +20,7 @@ CMAKE_SUFFIX_UNIX = ".tar.gz"
 CMAKE_SUFFIX_WINDOWS = ".zip"
 
 def download(url, filename):
-    print "Downloading "+url
+    print("Downloading "+url)
     try:
         _create_unverified_https_context = ssl._create_unverified_context
     except AttributeError:
@@ -29,7 +30,7 @@ def download(url, filename):
     urllib.urlretrieve(url, filename)
 
 def extract(filename):
-    print "Extracting "+os.path.basename(filename)
+    print("Extracting "+os.path.basename(filename))
     if filename.endswith('.zip'):
         opener, mode = zipfile.ZipFile, 'r'
     elif filename.endswith('.tar.gz') or filename.endswith('.tgz'):
