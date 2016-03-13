@@ -243,6 +243,7 @@ if(CTEST_MEMORYCHECK_COMMAND)
     ctest_test()
     ctest_memcheck()
     ctest_submit(PARTS Start Update Configure Build Test MemCheck Upload Submit)
+    set(CTEST_MEMORYCHECK_COMMAND "")
     set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "")
 endif()
 
