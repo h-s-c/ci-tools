@@ -4,6 +4,7 @@
 import platform
 import os
 import subprocess
+import shutil
 
 if __name__ == "__main__":
     CITOOLS_PATH = os.path.join(os.getcwd(), "ci-tools")
@@ -22,3 +23,6 @@ if __name__ == "__main__":
         raise Exception("CMake build returned an error.")
     if subprocess.call("cpack -C Release", shell=True) != 0:
         raise Exception("CPack returned an error.")
+
+    if os.path.exists(os.path.join(os.getcwd(), "_CPack_Packages")):
+        shutil.rmtree(os.path.join(os.getcwd(), "_CPack_Packages"))
