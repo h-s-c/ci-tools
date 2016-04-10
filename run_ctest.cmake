@@ -354,11 +354,12 @@ endif()
 # Dynamic analysis (UBSan)
 # UBan was introduced in GCC 4.9 / Clang 3.3
 # UBSan respects log_path starting Clang 3.7
+# Disabled because it does not produce output if not encountering any errors
 if(CC_NAME STREQUAL "clang")
     if(CC_VERSION VERSION_GREATER 3.7 OR CC_VERSION VERSION_EQUAL 3.7)
         if(CC_UBSAN GREATER 0)
-            set(CTEST_MEMORYCHECK_TYPE "UndefinedBehaviorSanitizer")
-            set(CC_UBSAN_FLAGS "-fsanitize=undefined,integer -fno-sanitize=vptr,return")
+            #set(CTEST_MEMORYCHECK_TYPE "UndefinedBehaviorSanitizer")
+            #set(CC_UBSAN_FLAGS "-fsanitize=undefined,integer -fno-sanitize=vptr,return")
         endif()
     endif()
 endif()
