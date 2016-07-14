@@ -138,19 +138,6 @@ set(CTEST_UPDATE_VERSION_ONLY TRUE)
 set(CTEST_OUTPUT_ON_FAILURE TRUE)
 set(CTEST_GIT_COMMAND "git")
 
-set(CTEST_CONFIGURATION_TYPE "Release")
-set(CTEST_BUILD_NAME "${CI_BUILD_NAME}-release")
-ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
-ctest_start(Continuous)
-ctest_update()
-ctest_read_custom_files(${CTEST_SOURCE_DIRECTORY})
-ctest_configure()
-ctest_build()
-if(NOT (CC_NAME STREQUAL "msvc" AND CC_ARCH STREQUAL "arm"))
-    ctest_test()
-endif()
-ctest_submit()
-
 set(CTEST_CONFIGURATION_TYPE "Debug")
 
 # Coverage
