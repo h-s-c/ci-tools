@@ -10,12 +10,14 @@ import tarfile
 import os
 import shutil
 import ssl
+import hashlib
 
 CMAKE_BASE_URL = "https://cmake.org/files/v3.6/"
-CMAKE_FILENAME_LINUX_32 = "cmake-3.6.0-Linux-i386"
-CMAKE_FILENAME_LINUX_64 = "cmake-3.6.0-Linux-x86_64"
-CMAKE_FILENAME_WINDOWS = "cmake-3.6.0-win32-x86"
-CMAKE_FILENAME_MACOSX = "cmake-3.6.0-Darwin-x86_64"
+CMAKE_VERSION = "3.6.1"
+CMAKE_FILENAME_LINUX_32 = "cmake-"+CMAKE_VERSION+"-Linux-i386"
+CMAKE_FILENAME_LINUX_64 = "cmake-"+CMAKE_VERSION+"-Linux-x86_64"
+CMAKE_FILENAME_WINDOWS = "cmake-"+CMAKE_VERSION+"-win32-x86"
+CMAKE_FILENAME_MACOSX = "cmake-"+CMAKE_VERSION+"-Darwin-x86_64"
 CMAKE_SUFFIX_UNIX = ".tar.gz"
 CMAKE_SUFFIX_WINDOWS = ".zip"
 
@@ -59,9 +61,32 @@ if __name__ == "__main__":
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
 
     os.chdir(os.path.join(os.getcwd(), "ci-tools"))
+    if not os.path.exists(os.path.join(os.getcwd(), "cache")):
+        os.mkdir(os.path.join(os.getcwd(), "cache"))
 
-    download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX, os.path.join(os.getcwd(), CMAKE_FILENAME+CMAKE_SUFFIX))
-    extract(os.path.join(os.getcwd(), CMAKE_FILENAME+CMAKE_SUFFIX))
+    while not os.path.isfile(os.path.join(os.getcwd(), "cache", "cmake-"+CMAKE_VERSION+"-SHA-256.txt")):
+        download(CMAKE_BASE_URL+"cmake-"+CMAKE_VERSION+"-SHA-256.txt", os.path.join(os.getcwd(), "cache", "cmake-"+CMAKE_VERSION+"-SHA-256.txt"))
+    
+    done = False
+    while not done:
+        if os.path.isfile(os.path.join(os.getcwd(), "cache",CMAKE_FILENAME+CMAKE_SUFFIX)):
+            print("Hashing "+CMAKE_FILENAME+CMAKE_SUFFIX)
+            hasher = hashlib.sha256()
+            with open(os.path.join(os.getcwd(), "cache", CMAKE_FILENAME+CMAKE_SUFFIX), 'rb') as file:
+                hasher.update(file.read())
+            with open(os.path.join(os.getcwd(), "cache", "cmake-"+CMAKE_VERSION+"-SHA-256.txt")) as search:
+                for line in search:
+                    if hasher.hexdigest() in line:
+                        done = True
+            if not done:
+                os.remove(os.path.join(os.getcwd(), "cache",CMAKE_FILENAME+CMAKE_SUFFIX))
+        else:
+            download(CMAKE_BASE_URL+CMAKE_FILENAME+CMAKE_SUFFIX, os.path.join(os.getcwd(), "cache", CMAKE_FILENAME+CMAKE_SUFFIX))
+
+    if os.path.exists(os.path.join(os.getcwd(), CMAKE_FILENAME)):
+        shutil.rmtree(os.path.join(os.getcwd(), CMAKE_FILENAME))
+
+    extract(os.path.join(os.getcwd(), "cache", CMAKE_FILENAME+CMAKE_SUFFIX))
 
     if os.path.exists(os.path.join(os.getcwd(), "cmake")):
         shutil.rmtree(os.path.join(os.getcwd(), "cmake"))
