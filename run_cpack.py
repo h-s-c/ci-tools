@@ -17,11 +17,11 @@ if __name__ == "__main__":
     elif platform.system() == "Darwin":
         os.environ["PATH"] = os.path.join(CMAKE_PATH, "CMake.app", "Contents", "bin")+":"+os.environ.get("PATH", os.path.join(CMAKE_PATH, "bin"))
 
-    if subprocess.call("cmake -DKD_BUILD_TESTS=Off -DKD_BUILD_EXAMPLES=Off -Bbuild -H.", shell=True) != 0:
-        raise Exception("CMake configure returned an error.")
-    if subprocess.call("cmake --build build --config Release", shell=True) != 0:
-        raise Exception("CMake build returned an error.")
-    if subprocess.call("cpack -C Release", shell=True) != 0:
+    if subprocess.call("cmake -G Ninja -Bbuild -H.", shell=True) != 0:
+        raise Exception("CMake returned an error.")
+    if subprocess.call("ninja -C build", shell=True) != 0:
+        raise Exception("Ninja returned an error.")
+    if subprocess.call("cpack", shell=True) != 0:
         raise Exception("CPack returned an error.")
 
     if os.path.exists(os.path.join(os.getcwd(), "_CPack_Packages")):
