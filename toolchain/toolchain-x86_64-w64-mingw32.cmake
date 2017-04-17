@@ -1,6 +1,9 @@
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_CROSSCOMPILING_EMULATOR wine)
 
+set(CMAKE_EXE_EXPORTS_C_FLAG "-Wl,--export-all-symbols")
+set(CMAKE_EXE_EXPORTS_CXX_FLAG "-Wl,--export-all-symbols")
+
 set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
 set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
 set(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)
