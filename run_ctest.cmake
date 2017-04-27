@@ -1,8 +1,9 @@
 if(UNIX)
-    # # Required by CTEST_COVERAGE_EXTRA_FLAGS and CTEST_UPDATE_VERSION_ONLY
-    cmake_minimum_required(VERSION 3.1)
+    # 3.1: Required by CTEST_COVERAGE_EXTRA_FLAGS and CTEST_UPDATE_VERSION_ONLY
+    # 3.8: Required by fixed CTEST_MEMORYCHECK_SANITIZER_OPTIONS
+    cmake_minimum_required(VERSION 3.8)
 else()
-    # # Required by COBERTURADIR
+    # 3.5: Required by COBERTURADIR
     cmake_minimum_required(VERSION 3.5)
 endif()
 
@@ -320,7 +321,7 @@ elseif(CC_NAME STREQUAL "clang")
     endif()
 endif()
 if(CTEST_MEMORYCHECK_TYPE STREQUAL "AddressSanitizer")
-    set(CTEST_MEMORYCHECK_SANITIZER_OPTIONS "verbosity=1 check_initialization_order=1")
+    set(CTEST_MEMORYCHECK_SANITIZER_OPTIONS "verbosity=1")
     set(CTEST_BUILD_NAME "${CI_BUILD_NAME}-asan")
     ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
     ctest_start(Continuous)
@@ -393,12 +394,11 @@ endif()
 # Dynamic analysis (UBSan)
 # UBan was introduced in GCC 4.9 / Clang 3.3
 # UBSan respects log_path starting Clang 3.7
-# Disabled because it does not produce output if not encountering any errors
 if(CC_NAME STREQUAL "clang")
     if(CC_VERSION VERSION_GREATER 3.7 OR CC_VERSION VERSION_EQUAL 3.7)
         if(CC_UBSAN GREATER 0)
-            #set(CTEST_MEMORYCHECK_TYPE "UndefinedBehaviorSanitizer")
-            #set(CC_UBSAN_FLAGS "-fsanitize=undefined,integer -fno-sanitize=vptr,return")
+            set(CTEST_MEMORYCHECK_TYPE "UndefinedBehaviorSanitizer")
+            set(CC_UBSAN_FLAGS "-fsanitize=undefined,integer -fno-sanitize=vptr,return")
         endif()
     endif()
 endif()
