@@ -20,7 +20,8 @@ if __name__ == "__main__":
     if subprocess.call("cmake -G Ninja -Bbuild -H.", shell=True) != 0:
         raise Exception("CMake returned an error.")
     if subprocess.call("ninja -C build", shell=True) != 0:
-        raise Exception("Ninja returned an error.")
+        if subprocess.call("ninja-build -C build", shell=True) != 0:
+            raise Exception("Ninja returned an error.")
     if subprocess.call("cpack", shell=True) != 0:
         raise Exception("CPack returned an error.")
 
