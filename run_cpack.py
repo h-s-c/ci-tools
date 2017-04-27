@@ -17,7 +17,7 @@ if __name__ == "__main__":
     elif platform.system() == "Darwin":
         os.environ["PATH"] = os.path.join(CMAKE_PATH, "CMake.app", "Contents", "bin")+":"+os.environ.get("PATH", os.path.join(CMAKE_PATH, "bin"))
 
-    if subprocess.call("cmake -G Ninja -Bbuild -H.", shell=True) != 0:
+    if subprocess.call("cmake -DCMAKE_BUILD_TYPE=Release -G Ninja -Bbuild -H.", shell=True) != 0:
         raise Exception("CMake returned an error.")
     if subprocess.call("ninja -C build", shell=True) != 0:
         if subprocess.call("ninja-build -C build", shell=True) != 0:
