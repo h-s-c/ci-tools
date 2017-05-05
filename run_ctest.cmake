@@ -350,7 +350,7 @@ endif()
 
 function(has_sanitizer has_sanitizer_arg has_sanitizer_retval)
     set(retval 0)
-    if(UNIX)
+    if(UNIX AND NOT APPLE)
         set(CI_ALPINE 0)
         execute_process(COMMAND cat /etc/os-release COMMAND grep -c Alpine OUTPUT_VARIABLE CI_ALPINE)
         if(CI_ALPINE EQUAL 0)
