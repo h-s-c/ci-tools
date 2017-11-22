@@ -13,7 +13,7 @@ import ssl
 import hashlib
 
 CMAKE_BASE_URL = "https://cmake.org/files/v3.10/"
-CMAKE_VERSION = "3.10.0-rc3"
+CMAKE_VERSION = "3.10.0"
 CMAKE_FILENAME_LINUX_32 = "cmake-"+CMAKE_VERSION+"-Linux-i386"
 CMAKE_FILENAME_LINUX_64 = "cmake-"+CMAKE_VERSION+"-Linux-x86_64"
 CMAKE_FILENAME_WINDOWS = "cmake-"+CMAKE_VERSION+"-win32-x86"
