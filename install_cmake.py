@@ -12,8 +12,8 @@ import shutil
 import ssl
 import hashlib
 
-CMAKE_BASE_URL = "https://cmake.org/files/v3.11/"
-CMAKE_VERSION = "3.11.0"
+CMAKE_BASE_URL = "http://cmake.org/files/v3.11/"
+CMAKE_VERSION = "3.13.1"
 CMAKE_FILENAME_LINUX_32 = "cmake-"+CMAKE_VERSION+"-Linux-i386"
 CMAKE_FILENAME_LINUX_64 = "cmake-"+CMAKE_VERSION+"-Linux-x86_64"
 CMAKE_FILENAME_WINDOWS = "cmake-"+CMAKE_VERSION+"-win32-x86"
