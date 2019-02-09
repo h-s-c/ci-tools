@@ -10,9 +10,10 @@ import tarfile
 import os
 import shutil
 import hashlib
+import ssl
 
 CMAKE_BASE_URL = "http://cmake.org/files/v3.13/"
-CMAKE_VERSION = "3.13.1"
+CMAKE_VERSION = "3.13.4"
 CMAKE_FILENAME_LINUX_32 = "cmake-"+CMAKE_VERSION+"-Linux-i386"
 CMAKE_FILENAME_LINUX_64 = "cmake-"+CMAKE_VERSION+"-Linux-x86_64"
 CMAKE_FILENAME_WINDOWS = "cmake-"+CMAKE_VERSION+"-win32-x86"
@@ -22,6 +23,12 @@ CMAKE_SUFFIX_WINDOWS = ".zip"
 
 def download(url, filename):
     print("Downloading "+url)
+    try:
+        _create_unverified_https_context = ssl._create_unverified_context
+    except AttributeError:
+        pass
+    else:
+        ssl._create_default_https_context = _create_unverified_https_context
     urllib.urlretrieve(url, filename)
 
 def extract(filename):
