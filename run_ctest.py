@@ -5,7 +5,9 @@ import platform
 import os
 import subprocess
 import sys
-import distutils.msvc9compiler as msvc
+
+if platform.system() == "Windows":
+    import distutils.msvc9compiler as msvc
 
 if __name__ == "__main__":
     CITOOLS_PATH = os.path.join(os.getcwd(), "ci-tools")
