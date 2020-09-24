@@ -29,7 +29,12 @@ def download(url, filename):
         pass
     else:
         ssl._create_default_https_context = _create_unverified_https_context
-    urllib.urlretrieve(url, filename)
+
+    if sys.version_info[0] >= 3:
+        from urllib.request import urlretrieve
+    else:
+        from urllib import urlretrieve
+    urlretrieve(url, filename)
 
 def extract(filename):
     print("Extracting "+os.path.basename(filename))
