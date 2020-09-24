@@ -43,6 +43,8 @@ if(UNIX)
                 if(CC_MINGW GREATER_EQUAL 0)
                     #Warmup wine or test timings are going to be wrong
                     exec_program(wine ARGS version OUTPUT_VARIABLE WINE_VERSION)
+                    #Start persistent wineserver
+                    exec_program(wineserver ARGS --persistent)
                     set(CC_NAME "mingw")
                 else()
                     set(CC_NAME "gcc")

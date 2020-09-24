@@ -6,10 +6,6 @@ import os
 import subprocess
 
 if __name__ == "__main__":
-    # Start persistent wineserver for faster MinGW tests
-    if platform.system() == "Linux":
-        subprocess.call("wineserver -p", shell=True)
-
     # Figure out path of our own cmake install
     CITOOLS_PATH = os.path.join(os.getcwd(), "ci-tools")
     CMAKE_PATH = os.path.join(CITOOLS_PATH, "cmake")
