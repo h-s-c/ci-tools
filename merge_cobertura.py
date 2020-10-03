@@ -276,7 +276,7 @@ def create_parser ():
                        help="output file xml name", metavar="FILE")
     parser.add_option ("-p", "--path", dest="path", default="./",
                        help="xml location, default current directory", metavar="FILE")
-    parser.add_option ("-l", "--log", dest="loglevel", default="DEBUG",
+    parser.add_option ("-l", "--log", dest="loglevel", default="WARNING",
                        help="Log level DEBUG, INFO, WARNING, ERROR, CRITICAL")
     parser.add_option ("-f", "--filteronly", dest="filteronly", default=False, action='store_true',
                        help="If set all files will be filtered by keep rules otherwise " +
