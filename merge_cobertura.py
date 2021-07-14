@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # author:   Jan Hybs
-from __future__ import absolute_import
+
 
 """https://github.com/x3mSpeedy/Flow123d-python-utils"""
 
@@ -81,7 +81,7 @@ class CoverageMerge (object):
                 self.xmlfiles.append (fullname)
 
             if not self.xmlfiles:
-                print 'No xml files found!'
+                print('No xml files found!')
                 sys.exit (1)
 
         else:
