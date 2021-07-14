@@ -16,4 +16,4 @@ if __name__ == "__main__":
     elif platform.system() == "Darwin":
         os.environ["PATH"] = os.path.join(CMAKE_PATH, "CMake.app", "Contents", "bin")+":"+os.environ.get("PATH", os.path.join(CMAKE_PATH, "bin"))
 
-    subprocess.check_call("ctest -S ci-tools/run_ctest.cmake", shell=True)
+    subprocess.check_call("ctest -V -S ci-tools/run_ctest.cmake", shell=True)
