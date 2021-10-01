@@ -1,4 +1,4 @@
-# CI-Tools
+# ci-tools
 [![license](https://img.shields.io/github/license/h-s-c/ci-tools.svg)](http://unlicense.org/)
 
 ##
