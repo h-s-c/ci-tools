@@ -55,7 +55,7 @@ if __name__ == "__main__":
     if platform.system() == "Linux":
         if platform.machine()[0] == "x86_64" or platform.machine()[0] == "AMD64":
             CMAKE_FILENAME = CMAKE_FILENAME_LINUX  
-        elif platform.machine()[0] == "aarch64"
+        elif platform.machine()[0] == "aarch64":
             CMAKE_FILENAME = CMAKE_FILENAME_LINUX_ARM64   
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
     elif platform.system() == "Windows":
