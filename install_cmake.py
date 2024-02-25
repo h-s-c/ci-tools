@@ -12,10 +12,10 @@ import shutil
 import hashlib
 import ssl
 
-CMAKE_BASE_URL = "http://cmake.org/files/v3.20/"
-CMAKE_VERSION = "3.20.5"
-CMAKE_FILENAME_LINUX_32 = "cmake-"+CMAKE_VERSION+"-linux-i386"
-CMAKE_FILENAME_LINUX_64 = "cmake-"+CMAKE_VERSION+"-linux-x86_64"
+CMAKE_BASE_URL = "http://cmake.org/files/v3.28/"
+CMAKE_VERSION = "3.28.3"
+CMAKE_FILENAME_LINUX = "cmake-"+CMAKE_VERSION+"-linux-x86_64"
+CMAKE_FILENAME_LINUX_ARM64 = "cmake-"+CMAKE_VERSION+"-linux-aarch64"
 CMAKE_FILENAME_WINDOWS = "cmake-"+CMAKE_VERSION+"-windows-x86_64"
 CMAKE_FILENAME_MACOSX = "cmake-"+CMAKE_VERSION+"-macos-universal"
 CMAKE_SUFFIX_UNIX = ".tar.gz"
@@ -53,10 +53,10 @@ def extract(filename):
 
 if __name__ == "__main__":
     if platform.system() == "Linux":
-        if platform.architecture()[0] == "32bit":
-            CMAKE_FILENAME = CMAKE_FILENAME_LINUX_32
-        elif platform.architecture()[0] == "64bit":
-            CMAKE_FILENAME = CMAKE_FILENAME_LINUX_64   
+        if platform.machine()[0] == "x86_64" or platform.machine()[0] == "AMD64":
+            CMAKE_FILENAME = CMAKE_FILENAME_LINUX  
+        elif platform.machine()[0] == "aarch64"
+            CMAKE_FILENAME = CMAKE_FILENAME_LINUX_ARM64   
         CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
     elif platform.system() == "Windows":
         CMAKE_FILENAME = CMAKE_FILENAME_WINDOWS
