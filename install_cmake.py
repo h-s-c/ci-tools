@@ -52,18 +52,17 @@ def extract(filename):
     finally: file.close()
 
 if __name__ == "__main__":
+    CMAKE_FILENAME = CMAKE_FILENAME_LINUX  
+    CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
+
     if platform.system() == "Linux":
         if platform.machine()[0] == "aarch64":
-            CMAKE_FILENAME = CMAKE_FILENAME_LINUX_ARM64
-        else:
-            CMAKE_FILENAME = CMAKE_FILENAME_LINUX  
-        CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
+            CMAKE_FILENAME = CMAKE_FILENAME_LINUX_ARM64   
     elif platform.system() == "Windows":
         CMAKE_FILENAME = CMAKE_FILENAME_WINDOWS
         CMAKE_SUFFIX = CMAKE_SUFFIX_WINDOWS
     elif platform.system() == "Darwin":
         CMAKE_FILENAME = CMAKE_FILENAME_MACOSX
-        CMAKE_SUFFIX = CMAKE_SUFFIX_UNIX
 
     os.chdir(os.path.join(os.getcwd(), "ci-tools"))
     if not os.path.exists(os.path.join(os.getcwd(), "cache")):
